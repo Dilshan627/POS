@@ -22,6 +22,8 @@ public class CustomerDAOImpl {
         }
         return allCustomers;
     }
+
+    //saveCustomer
     public void saveCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
 
         Connection connection = DBConnection.getDbConnection().getConnection();
@@ -32,6 +34,7 @@ public class CustomerDAOImpl {
         pstm.executeUpdate();
     }
 
+    //updateCustomer
     public void updateCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
 
         Connection connection = DBConnection.getDbConnection().getConnection();
