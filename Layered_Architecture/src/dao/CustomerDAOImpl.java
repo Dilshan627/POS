@@ -31,7 +31,7 @@ public class CustomerDAOImpl {
         pstm.setString(1, dto.getId());
         pstm.setString(2, dto.getName());
         pstm.setString(3, dto.getAddress());
-        return pstm.executeUpdate()>0;
+        return pstm.executeUpdate() > 0;
     }
 
     //updateCustomer
@@ -42,7 +42,7 @@ public class CustomerDAOImpl {
         pstm.setString(1, dto.getName());
         pstm.setString(2, dto.getAddress());
         pstm.setString(3, dto.getId());
-       return pstm.executeUpdate()>0;
+        return pstm.executeUpdate() > 0;
 
     }
 
