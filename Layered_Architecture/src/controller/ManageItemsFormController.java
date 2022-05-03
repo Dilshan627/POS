@@ -68,14 +68,16 @@ public class ManageItemsFormController {
         loadAllItems();
     }
 
+    ItemDAO itemDAO = new ItemDAOImpl();
+
     private void loadAllItems() {
         tblItems.getItems().clear();
         try {
             /*Get all items*/
 
 
-            ItemDAO itemDTO = new ItemDAOImpl();
-            ArrayList<ItemDTO> allItem = itemDTO.getAllItem();
+           //ItemDAO itemDTO = new ItemDAOImpl();
+            ArrayList<ItemDTO> allItem = itemDAO.getAllItem();
 
             for (ItemDTO item : allItem) {
                 tblItems.getItems().add(new ItemTM(item.getCode(), item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
@@ -138,7 +140,7 @@ public class ManageItemsFormController {
             if (!existItem(code)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
             }
-            ItemDAO itemDAO = new ItemDAOImpl();
+            //ItemDAO itemDTO = new ItemDAOImpl();
             itemDAO.deleteItem(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
@@ -180,7 +182,7 @@ public class ManageItemsFormController {
                 }
                 //Save Item
 
-                ItemDAO itemDAO = new ItemDAOImpl();
+               // ItemDAO itemDTO = new ItemDAOImpl();
                 itemDAO.saveItem(new ItemDTO(code, description, unitPrice, qtyOnHand));
 
 
@@ -199,7 +201,7 @@ public class ManageItemsFormController {
                 }
 
 
-                ItemDAO itemDAO = new ItemDAOImpl();
+               // ItemDAO itemDTO = new ItemDAOImpl();
                 itemDAO.updateItem(new ItemDTO(code, description, unitPrice, qtyOnHand));
 
                 ItemTM selectedItem = tblItems.getSelectionModel().getSelectedItem();
@@ -219,7 +221,7 @@ public class ManageItemsFormController {
 
 
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO = new ItemDAOImpl();
+      //  ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.existItem(code);
     }
 
@@ -227,7 +229,7 @@ public class ManageItemsFormController {
     private String generateNewId() {
         try {
 
-            ItemDAO itemDAO = new ItemDAOImpl();
+           // ItemDAO itemDAO = new ItemDAOImpl();
             itemDAO.generateNewID();
 
         } catch (SQLException e) {
