@@ -64,13 +64,15 @@ public class ManageCustomersFormController {
         loadAllCustomers();
     }
 
+    CustomerDAO customerDAO = new CustomerDAOImpl();
+
     private void loadAllCustomers() {
         tblCustomers.getItems().clear();
         /*Get all customers*/
         try {
 
 
-            CustomerDAO customerDAO = new CustomerDAOImpl();
+           // CustomerDAO customerDAO = new CustomerDAOImpl();
             ArrayList<CustomerDTO> allCustomers = customerDAO.getAllCustomers();
 
             for (CustomerDTO customer : allCustomers) {
@@ -148,7 +150,7 @@ public class ManageCustomersFormController {
 
 
 
-                CustomerDAO customerDAO = new CustomerDAOImpl();
+               // CustomerDAO customerDAO = new CustomerDAOImpl();
                 customerDAO.saveCustomer(new CustomerDTO(id, name, address));
 
                 tblCustomers.getItems().add(new CustomerTM(id, name, address));
@@ -168,7 +170,7 @@ public class ManageCustomersFormController {
 
 
 
-                CustomerDAO customerDAO = new CustomerDAOImpl();
+               // CustomerDAO customerDAO = new CustomerDAOImpl();
                 customerDAO.updateCustomer(new CustomerDTO(id, name, address));
 
 
@@ -190,7 +192,7 @@ public class ManageCustomersFormController {
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
 
-        CustomerDAO customerDAO = new CustomerDAOImpl();
+       // CustomerDAO customerDAO = new CustomerDAOImpl();
         return customerDAO.existCustomer(id);
     }
 
@@ -203,7 +205,7 @@ public class ManageCustomersFormController {
                 new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
             }
 
-            CustomerDAO customerDAO = new CustomerDAOImpl();
+          //  CustomerDAO customerDAO = new CustomerDAOImpl();
             customerDAO.deleteCustomer(id);
 
 
@@ -221,7 +223,7 @@ public class ManageCustomersFormController {
     private String generateNewId() {
         try {
 
-            CustomerDAO customerDAO = new CustomerDAOImpl();
+           // CustomerDAO customerDAO = new CustomerDAOImpl();
             return customerDAO.generateNewID();
 
         } catch (SQLException e) {

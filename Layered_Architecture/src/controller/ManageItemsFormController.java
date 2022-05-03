@@ -73,9 +73,7 @@ public class ManageItemsFormController {
         try {
             /*Get all items*/
 
-            //Tight Coupling
-            //No DI
-            //Boilerplate Code
+
             ItemDAO itemDTO = new ItemDAOImpl();
             ArrayList<ItemDTO> allItem = itemDTO.getAllItem();
 
