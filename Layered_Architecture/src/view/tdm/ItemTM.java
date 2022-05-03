@@ -3,10 +3,7 @@ package view.tdm;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-/**
- * @author : Sanu Vithanage
- * @since : 0.1.0
- **/
+
 
 public class ItemTM  {
     private String code;

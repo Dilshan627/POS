@@ -30,10 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * @author : Sanu Vithanage
- * @since : 0.1.0
- **/
+
 
 public class PlaceOrderFormController {
 

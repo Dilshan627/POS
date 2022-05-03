@@ -3,10 +3,7 @@ package model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-/**
- * @author : Sanu Vithanage
- * @since : 0.1.0
- **/
+
 
 public class OrderDetailDTO implements Serializable {
     private String itemCode;
