@@ -3,7 +3,6 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import dao.ItemDAOImpl;
-import db.DBConnection;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,15 +21,10 @@ import view.tdm.ItemTM;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-/**
- * @author : Sanu Vithanage
- * @since : 0.1.0
- **/
 
 public class ManageItemsFormController {
     public AnchorPane root;
@@ -76,7 +70,11 @@ public class ManageItemsFormController {
     private void loadAllItems() {
         tblItems.getItems().clear();
         try {
+            /*Get all items*/
 
+            //Tight Coupling
+            //No DI
+            //Boilerplate Code
             ItemDAOImpl itemDTO = new ItemDAOImpl();
             ArrayList<ItemDTO> allItem = itemDTO.getAllItem();
 
@@ -229,22 +227,36 @@ public class ManageItemsFormController {
 
     private String generateNewId() {
         try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
-            ResultSet rst = connection.createStatement().executeQuery("SELECT code FROM Item ORDER BY code DESC LIMIT 1;");
-            if (rst.next()) {
-                String id = rst.getString("code");
-                int newItemId = Integer.parseInt(id.replace("I00-", "")) + 1;
-                return String.format("I00-%03d", newItemId);
-            } else {
-                return "I00-001";
-            }
+
+            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            itemDAO.generateNewID();
+
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return "I00-001";
+
+        if (tblItems.getItems().isEmpty()) {
+            return "I00-001";
+
+        } else {
+            String id = getLastItemId();
+            int newItemId = Integer.parseInt(id.replace("I00-", "")) + 1;
+            return String.format("I00-%03d", newItemId);
+        }
+
+
     }
+
+    private String getLastItemId() {
+        ArrayList<ItemTM> tempItemList = new ArrayList<>(tblItems.getItems());
+        // Collections.sort(tempItemList);
+        Arrays.sort(new ArrayList[]{tempItemList});
+        return tempItemList.get(tempItemList.size() - 1).getCode();
+    }
+
+
 }
 
 
