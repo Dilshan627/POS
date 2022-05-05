@@ -31,7 +31,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-
 public class PlaceOrderFormController {
 
     public AnchorPane root;
@@ -301,7 +300,7 @@ public class PlaceOrderFormController {
         for (OrderDetailTM detail : tblOrderDetails.getItems()) {
             total = total.add(detail.getTotal());
         }
-        lblTotal.setText("Total: " +total);
+        lblTotal.setText("Total: " + total);
     }
 
     private void enableOrDisablePlaceOrderButton() {

@@ -2,7 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import dao.CustomerDAO;
+import dao.CrudDAO;
 import dao.CustomerDAOImpl;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -37,6 +37,8 @@ public class ManageCustomersFormController {
     public TableView<CustomerTM> tblCustomers;
     public JFXButton btnAddNewCustomer;
 
+    CrudDAO<CustomerDTO, String> customerDAO = new CustomerDAOImpl();
+
     public void initialize() {
         tblCustomers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
         tblCustomers.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -64,16 +66,14 @@ public class ManageCustomersFormController {
         loadAllCustomers();
     }
 
-    CustomerDAO customerDAO = new CustomerDAOImpl();
-
     private void loadAllCustomers() {
         tblCustomers.getItems().clear();
         /*Get all customers*/
         try {
 
 
-           // CustomerDAO customerDAO = new CustomerDAOImpl();
-            ArrayList<CustomerDTO> allCustomers = customerDAO.getAllCustomers();
+            // CustomerDAO customerDAO = new CustomerDAOImpl();
+            ArrayList<CustomerDTO> allCustomers = customerDAO.getAll();
 
             for (CustomerDTO customer : allCustomers) {
                 tblCustomers.getItems().add(new CustomerTM(customer.getId(), customer.getName(), customer.getAddress()));
@@ -109,6 +109,8 @@ public class ManageCustomersFormController {
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();
         Platform.runLater(() -> primaryStage.sizeToScene());
+
+
     }
 
     public void btnAddNew_OnAction(ActionEvent actionEvent) {
@@ -149,9 +151,8 @@ public class ManageCustomersFormController {
                 }
 
 
-
-               // CustomerDAO customerDAO = new CustomerDAOImpl();
-                customerDAO.saveCustomer(new CustomerDTO(id, name, address));
+                // CustomerDAO customerDAO = new CustomerDAOImpl();
+                customerDAO.save(new CustomerDTO(id, name, address));
 
                 tblCustomers.getItems().add(new CustomerTM(id, name, address));
             } catch (SQLException e) {
@@ -169,9 +170,8 @@ public class ManageCustomersFormController {
                 }
 
 
-
-               // CustomerDAO customerDAO = new CustomerDAOImpl();
-                customerDAO.updateCustomer(new CustomerDTO(id, name, address));
+                // CustomerDAO customerDAO = new CustomerDAOImpl();
+                customerDAO.update(new CustomerDTO(id, name, address));
 
 
             } catch (SQLException e) {
@@ -192,8 +192,8 @@ public class ManageCustomersFormController {
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
 
-       // CustomerDAO customerDAO = new CustomerDAOImpl();
-        return customerDAO.existCustomer(id);
+        // CustomerDAO customerDAO = new CustomerDAOImpl();
+        return customerDAO.exist(id);
     }
 
 
@@ -205,8 +205,8 @@ public class ManageCustomersFormController {
                 new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
             }
 
-          //  CustomerDAO customerDAO = new CustomerDAOImpl();
-            customerDAO.deleteCustomer(id);
+            //  CustomerDAO customerDAO = new CustomerDAOImpl();
+            customerDAO.delete(id);
 
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
@@ -223,7 +223,7 @@ public class ManageCustomersFormController {
     private String generateNewId() {
         try {
 
-           // CustomerDAO customerDAO = new CustomerDAOImpl();
+            // CustomerDAO customerDAO = new CustomerDAOImpl();
             return customerDAO.generateNewID();
 
         } catch (SQLException e) {
