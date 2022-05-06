@@ -14,7 +14,7 @@ public class ItemDAOImpl implements CrudDAO<ItemDTO, String> {
         ResultSet rst = SQLUtil.executeQuery("SELECT * FROM Item");
         ArrayList<ItemDTO> allItem = new ArrayList<>();
         while (rst.next()) {
-            allItem.add(new ItemDTO(rst.getString(1), rst.getString(2), rst.getBigDecimal(3), rst.getInt(4)));
+            allItem.add(new ItemDTO(rst.getString(1), rst.getString(2), rst.getBigDecimal(4), rst.getInt(3)));
         }
         return allItem;
     }
@@ -42,7 +42,7 @@ public class ItemDAOImpl implements CrudDAO<ItemDTO, String> {
     public ItemDTO search(String id) throws SQLException, ClassNotFoundException {
         ResultSet rst = SQLUtil.executeQuery("SELECT * FROM Item WHERE code=?", id);
         if (rst.next()) {
-            return new ItemDTO(rst.getString(1), rst.getString(2), rst.getBigDecimal(3), rst.getInt(4));
+            return new ItemDTO(rst.getString(1), rst.getString(2), rst.getBigDecimal(4), rst.getInt(3));
         }
         return null;
 
