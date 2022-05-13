@@ -1,7 +1,7 @@
 package controller;
 
-import bo.CustomerBO;
-import bo.CustomerBOImpl;
+import bo.costom.CustomerBO;
+import bo.costom.Impl.CustomerBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
