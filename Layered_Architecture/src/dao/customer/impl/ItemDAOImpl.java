@@ -68,4 +68,8 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
 
+    @Override
+    public ArrayList<ItemDTO> getItemFromPrice(double price) throws ClassNotFoundException, SQLException {
+        return null;
+    }
 }
