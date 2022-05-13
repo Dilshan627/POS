@@ -1,10 +1,9 @@
 package controller;
 
+import bo.ItemBO;
+import bo.ItemBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import dao.CrudDAO;
-import dao.customer.ItemDAO;
-import dao.customer.impl.ItemDAOImpl;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +28,7 @@ import java.util.Arrays;
 
 
 public class ManageItemsFormController {
+    private final ItemBO itemBO = new ItemBOImpl();
     public AnchorPane root;
     public JFXTextField txtCode;
     public JFXTextField txtDescription;
@@ -38,8 +38,6 @@ public class ManageItemsFormController {
     public TableView<ItemTM> tblItems;
     public JFXTextField txtUnitPrice;
     public JFXButton btnAddNewItem;
-
-    ItemDAO itemDAO = new ItemDAOImpl();
 
     public void initialize() {
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -76,17 +74,11 @@ public class ManageItemsFormController {
         tblItems.getItems().clear();
         try {
             /*Get all items*/
-
-
-            //ItemDAO itemDTO = new ItemDAOImpl();
-            ArrayList<ItemDTO> allItem = itemDAO.getAll();
+            ArrayList<ItemDTO> allItem = itemBO.getAllItems();
 
             for (ItemDTO item : allItem) {
                 tblItems.getItems().add(new ItemTM(item.getCode(), item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
-
             }
-
-
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (ClassNotFoundException e) {
@@ -142,8 +134,7 @@ public class ManageItemsFormController {
             if (!existItem(code)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
             }
-            //ItemDAO itemDTO = new ItemDAOImpl();
-            itemDAO.delete(code);
+            itemBO.deleteItem(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
             tblItems.getSelectionModel().clearSelection();
@@ -183,10 +174,7 @@ public class ManageItemsFormController {
                     new Alert(Alert.AlertType.ERROR, code + " already exists").show();
                 }
                 //Save Item
-
-                // ItemDAO itemDTO = new ItemDAOImpl();
-                itemDAO.save(new ItemDTO(code, description, unitPrice, qtyOnHand));
-
+                itemBO.saveItem(new ItemDTO(code, description, unitPrice, qtyOnHand));
 
                 tblItems.getItems().add(new ItemTM(code, description, unitPrice, qtyOnHand));
 
@@ -197,14 +185,10 @@ public class ManageItemsFormController {
             }
         } else {
             try {
-
                 if (!existItem(code)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
                 }
-
-
-                // ItemDAO itemDTO = new ItemDAOImpl();
-                itemDAO.update(new ItemDTO(code, description, unitPrice, qtyOnHand));
+                itemBO.updateItem(new ItemDTO(code, description, unitPrice, qtyOnHand));
 
                 ItemTM selectedItem = tblItems.getSelectionModel().getSelectedItem();
                 selectedItem.setDescription(description);
@@ -217,23 +201,18 @@ public class ManageItemsFormController {
                 e.printStackTrace();
             }
         }
-
         btnAddNewItem.fire();
     }
 
 
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        //  ItemDAO itemDAO = new ItemDAOImpl();
-        return itemDAO.exist(code);
+        return itemBO.itemExist(code);
     }
 
 
     private String generateNewId() {
         try {
-
-            // ItemDAO itemDAO = new ItemDAOImpl();
-            itemDAO.generateNewID();
-
+            itemBO.generateNewItemCode();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (ClassNotFoundException e) {
@@ -248,8 +227,6 @@ public class ManageItemsFormController {
             int newItemId = Integer.parseInt(id.replace("I00-", "")) + 1;
             return String.format("I00-%03d", newItemId);
         }
-
-
     }
 
     private String getLastItemId() {

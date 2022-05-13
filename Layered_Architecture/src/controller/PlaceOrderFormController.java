@@ -1,5 +1,6 @@
 package controller;
 
+import bo.PurchaseOrderBO;
 import bo.PurchaseOrderBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
 
 public class PlaceOrderFormController {
 
+    private final PurchaseOrderBO purchaseOrderBO = new PurchaseOrderBOImpl();
     public AnchorPane root;
     public JFXButton btnPlaceOrder;
     public JFXTextField txtCustomerName;
@@ -92,7 +94,6 @@ public class PlaceOrderFormController {
 
         cmbCustomerId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             enableOrDisablePlaceOrderButton();
-
             if (newValue != null) {
                 try {
                     /*Search Customer*/
@@ -102,8 +103,6 @@ public class PlaceOrderFormController {
 //                            "There is no such customer associated with the id " + id
                             new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + newValue + "").show();
                         }
-
-                        PurchaseOrderBOImpl purchaseOrderBO = new PurchaseOrderBOImpl();
                         CustomerDTO search = purchaseOrderBO.searchCustomer(newValue + "");
 
                         txtCustomerName.setText(search.getName());
@@ -112,7 +111,6 @@ public class PlaceOrderFormController {
                     } catch (SQLException e) {
                         new Alert(Alert.AlertType.ERROR, "Failed to find the customer " + newValue + "" + e).show();
                     }
-
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -123,7 +121,6 @@ public class PlaceOrderFormController {
             }
         });
 
-
         cmbItemCode.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newItemCode) -> {
             txtQty.setEditable(newItemCode != null);
             btnSave.setDisable(newItemCode == null);
@@ -133,17 +130,14 @@ public class PlaceOrderFormController {
                 /*Find Item*/
                 try {
                     if (!existItem(newItemCode + "")) {
-//                        throw new NotFoundException("There is no such item associated with the id " + code);
                     }
 
                     //Search Item
-                    PurchaseOrderBOImpl purchaseOrderBO = new PurchaseOrderBOImpl();
                     ItemDTO item = purchaseOrderBO.searchItem(newItemCode + "");
 
                     txtDescription.setText(item.getDescription());
                     txtUnitPrice.setText(item.getUnitPrice().setScale(2).toString());
 
-//                    txtQtyOnHand.setText(tblOrderDetails.getItems().stream().filter(detail-> detail.getCode().equals(item.getCode())).<Integer>map(detail-> item.getQtyOnHand() - detail.getQty()).findFirst().orElse(item.getQtyOnHand()) + "");
                     Optional<OrderDetailTM> optOrderDetail = tblOrderDetails.getItems().stream().filter(detail -> detail.getCode().equals(newItemCode)).findFirst();
                     txtQtyOnHand.setText((optOrderDetail.isPresent() ? item.getQtyOnHand() - optOrderDetail.get().getQty() : item.getQtyOnHand()) + "");
 
@@ -175,7 +169,6 @@ public class PlaceOrderFormController {
                 cmbItemCode.getSelectionModel().clearSelection();
                 txtQty.clear();
             }
-
         });
 
         loadAllCustomerIds();
@@ -183,18 +176,15 @@ public class PlaceOrderFormController {
     }
 
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        PurchaseOrderBOImpl purchaseOrderBO = new PurchaseOrderBOImpl();
         return purchaseOrderBO.checkItemIsAvailable(code);
     }
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        PurchaseOrderBOImpl purchaseOrderBO = new PurchaseOrderBOImpl();
         return purchaseOrderBO.checkCustomerIsAvailable(id);
     }
 
     public String generateNewOrderId() {
         try {
-            PurchaseOrderBOImpl purchaseOrderBO = new PurchaseOrderBOImpl();
             return purchaseOrderBO.generateNewOrderID();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
@@ -206,7 +196,6 @@ public class PlaceOrderFormController {
 
     private void loadAllCustomerIds() {
         try {
-            PurchaseOrderBOImpl purchaseOrderBO = new PurchaseOrderBOImpl();
             ArrayList<CustomerDTO> allCustomers = purchaseOrderBO.getAllCustomers();
             for (CustomerDTO customerDTO : allCustomers) {
                 cmbCustomerId.getItems().add(customerDTO.getId());
@@ -222,7 +211,6 @@ public class PlaceOrderFormController {
     private void loadAllItemCodes() {
         try {
             /*Get all items*/
-            PurchaseOrderBOImpl purchaseOrderBO = new PurchaseOrderBOImpl();
             ArrayList<ItemDTO> allItems = purchaseOrderBO.getAllItems();
             for (ItemDTO dto : allItems) {
                 cmbItemCode.getItems().add(dto.getCode());
@@ -287,7 +275,6 @@ public class PlaceOrderFormController {
 
     private void calculateTotal() {
         BigDecimal total = new BigDecimal(0);
-
         for (OrderDetailTM detail : tblOrderDetails.getItems()) {
             total = total.add(detail.getTotal());
         }
@@ -320,7 +307,6 @@ public class PlaceOrderFormController {
     }
 
     public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
-        PurchaseOrderBOImpl purchaseOrderBO = new PurchaseOrderBOImpl();
         try {
             return purchaseOrderBO.purchaseOrder(orderId, orderDate, customerId, orderDetails);
         } catch (SQLException e) {
@@ -334,7 +320,6 @@ public class PlaceOrderFormController {
 
     public ItemDTO findItem(String code) {
         try {
-            PurchaseOrderBOImpl purchaseOrderBO = new PurchaseOrderBOImpl();
             return purchaseOrderBO.searchItem(code);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);
