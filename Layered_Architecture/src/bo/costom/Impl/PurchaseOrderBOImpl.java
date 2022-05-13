@@ -3,7 +3,6 @@ package bo.costom.Impl;
 import bo.costom.PurchaseOrderBO;
 import dao.DAOFactory;
 import dao.customer.*;
-import dao.customer.impl.*;
 import db.DBConnection;
 import model.CustomerDTO;
 import model.ItemDTO;
@@ -17,13 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class PurchaseOrderBOImpl implements PurchaseOrderBO {
 
     private final CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
-
-
-
     private final ItemDAO itemDAO = (ItemDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ITEM);
     private final OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
     private final OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDERDETAILS);

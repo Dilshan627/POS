@@ -1,8 +1,8 @@
 package bo.costom.Impl;
 
 import bo.costom.CustomerBO;
+import dao.DAOFactory;
 import dao.customer.CustomerDAO;
-import dao.customer.impl.CustomerDAOImpl;
 import model.CustomerDTO;
 
 import java.sql.SQLException;
@@ -10,10 +10,12 @@ import java.util.ArrayList;
 
 public class CustomerBOImpl implements CustomerBO {
 
-    private final CustomerDAO customerDAO = new CustomerDAOImpl();
+    private final CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
 
     @Override
     public ArrayList<CustomerDTO> getAllCustomers() throws SQLException, ClassNotFoundException {
+
+
         return customerDAO.getAll();
     }
 
