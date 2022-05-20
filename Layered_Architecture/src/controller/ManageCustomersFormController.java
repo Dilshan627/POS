@@ -1,5 +1,6 @@
 package controller;
 
+import bo.BOFactory;
 import bo.costom.CustomerBO;
 import bo.costom.Impl.CustomerBOImpl;
 import com.jfoenix.controls.JFXButton;
@@ -28,7 +29,7 @@ import java.util.List;
 
 
 public class ManageCustomersFormController {
-    private final CustomerBO customerBO = new CustomerBOImpl();
+    private final CustomerBO customerBO = (CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
     public AnchorPane root;
     public JFXTextField txtCustomerName;
     public JFXTextField txtCustomerId;
