@@ -1,7 +1,9 @@
-package dao.customer.impl;
+package dao.custom.impl;
 
 import dao.SQLUtil;
-import dao.customer.OrderDetailsDAO;
+import dao.custom.OrderDetailsDAO;
+import entity.Item;
+import entity.OrderDetails;
 import model.OrderDetailDTO;
 
 import java.sql.SQLException;
@@ -9,17 +11,17 @@ import java.util.ArrayList;
 
 public class OrderDetailsDAOImpl implements OrderDetailsDAO {
     @Override
-    public ArrayList<OrderDetailDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<OrderDetails> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean save(OrderDetailDTO dto) throws SQLException, ClassNotFoundException {
-        return SQLUtil.executeUpdate("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)", dto.getOid(), dto.getItemCode(), dto.getUnitPrice(), dto.getQty());
+    public boolean save(OrderDetails entity) throws SQLException, ClassNotFoundException {
+        return SQLUtil.executeUpdate("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)", entity.getOid(), entity.getItemCode(), entity.getUnitPrice(), entity.getQty());
     }
 
     @Override
-    public boolean update(OrderDetailDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean update(OrderDetails entity) throws SQLException, ClassNotFoundException {
         return false;
     }
 

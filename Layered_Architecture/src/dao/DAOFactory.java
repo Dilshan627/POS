@@ -1,5 +1,5 @@
 package dao;
-import dao.customer.impl.*;
+import dao.custom.impl.*;
 
 
 public class DAOFactory {
