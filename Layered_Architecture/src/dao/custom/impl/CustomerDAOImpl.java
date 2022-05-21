@@ -3,13 +3,13 @@ package dao.custom.impl;
 import dao.SQLUtil;
 import dao.custom.CustomerDAO;
 import entity.Customer;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class CustomerDAOImpl implements CustomerDAO {
-
     @Override
     public ArrayList<Customer> getAll() throws SQLException, ClassNotFoundException {
         ResultSet rst = SQLUtil.executeQuery("SELECT * FROM Customer");
@@ -25,6 +25,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         return SQLUtil.executeUpdate("INSERT INTO Customer (id,name, address) VALUES (?,?,?)", entity.getId(), entity.getName(), entity.getAddress());
     }
 
+
     @Override
     public boolean update(Customer entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.executeUpdate("UPDATE Customer SET name=?, address=? WHERE id=?", entity.getName(), entity.getAddress(), entity.getId());
@@ -38,6 +39,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
         return null;
     }
+
 
     @Override
     public boolean exist(String id) throws SQLException, ClassNotFoundException {
@@ -61,7 +63,6 @@ public class CustomerDAOImpl implements CustomerDAO {
             return "C00-001";
         }
     }
-
 
     @Override
     public ArrayList<Customer> getAllCustomersByAddress(String address) throws ClassNotFoundException, SQLException {

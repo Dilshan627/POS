@@ -19,7 +19,6 @@ public class OrderDAOImpl implements OrderDAO {
         return SQLUtil.executeUpdate("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)", entity.getOid(), entity.getDate(), entity.getCustomerID());
     }
 
-
     @Override
     public boolean update(Orders entity) throws SQLException, ClassNotFoundException {
         return false;
@@ -44,6 +43,5 @@ public class OrderDAOImpl implements OrderDAO {
     public String generateNewID() throws SQLException, ClassNotFoundException {
         ResultSet rst = SQLUtil.executeQuery("SELECT oid FROM `Orders` ORDER BY oid DESC LIMIT 1;");
         return rst.next() ? String.format("OID-%03d", (Integer.parseInt(rst.getString("oid").replace("OID-", "")) + 1)) : "OID-001";
-
     }
 }

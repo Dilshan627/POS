@@ -26,7 +26,7 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
     }
 
     @Override
-    public OrderDetailDTO search(String s) throws SQLException, ClassNotFoundException {
+    public OrderDetails search(String s) throws SQLException, ClassNotFoundException {
         return null;
     }
 

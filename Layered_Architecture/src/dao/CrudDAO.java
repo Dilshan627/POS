@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public interface CrudDAO<T, ID> extends SuperDAO{
 
-    ArrayList<Item> getAll() throws SQLException, ClassNotFoundException;
+    ArrayList<T> getAll() throws SQLException, ClassNotFoundException;
 
     boolean save(T dto) throws SQLException, ClassNotFoundException;
 
@@ -20,6 +20,4 @@ public interface CrudDAO<T, ID> extends SuperDAO{
     boolean delete(ID id) throws SQLException, ClassNotFoundException;
 
     String generateNewID() throws SQLException, ClassNotFoundException;
-
-
 }

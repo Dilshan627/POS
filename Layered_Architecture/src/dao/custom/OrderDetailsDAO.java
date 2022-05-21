@@ -4,5 +4,5 @@ import dao.CrudDAO;
 import entity.OrderDetails;
 import model.OrderDetailDTO;
 
-public interface OrderDetailsDAO extends CrudDAO<OrderDetails, String> {
+public interface OrderDetailsDAO extends CrudDAO<OrderDetails,String> {
 }

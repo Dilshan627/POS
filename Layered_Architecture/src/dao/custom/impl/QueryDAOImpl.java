@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class QueryDAOImpl implements QueryDAO {
-
     @Override
     public ArrayList<CustomDTO> searchOrderByOrderID(String id) throws SQLException, ClassNotFoundException {
         ResultSet rst = SQLUtil.executeQuery("select Orders.oid,Orders.date,Orders.customerID,OrderDetails.itemCode,OrderDetails.qty,OrderDetails.unitPrice from Orders inner join OrderDetails on Orders.oid=OrderDetails.oid where Orders.oid=?;", id);

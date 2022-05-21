@@ -1,6 +1,8 @@
-package bo.costom.Impl;
+package bo.custom.Impl;
 
-import bo.costom.PurchaseOrderBO;
+
+
+import bo.custom.PurchaseOrderBO;
 import dao.DAOFactory;
 import dao.custom.*;
 import db.DBConnection;
@@ -20,16 +22,19 @@ import java.util.ArrayList;
 
 public class PurchaseOrderBOImpl implements PurchaseOrderBO {
 
-    private final CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
+    private final CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);// hide the object creation logic through the factory
     private final ItemDAO itemDAO = (ItemDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ITEM);
     private final OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
     private final OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDERDETAILS);
     private final QueryDAO queryDAO = (QueryDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.QUERYDAO);
 
+
     @Override
     public boolean purchaseOrder(OrderDTO dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
 
+
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        /*if order id already exist*/
         if (orderDAO.exist(dto.getOrderId())) {
 
         }
@@ -50,7 +55,7 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBO {
                 return false;
             }
 
-
+            //Search & Update Item
             ItemDTO item = searchItem(detailDTO.getItemCode());
             item.setQtyOnHand(item.getQtyOnHand() - detailDTO.getQty());
 
